@@ -1,0 +1,10 @@
+build=Build enhancer-0.0.1.gem into the pkg directory
+clobber=
+clobber_rdoc=Remove rdoc products
+doc=
+doc/index.html=
+install=Build and install enhancer-0.0.1.gem into system gems
+rdoc=Build the rdoc HTML Files
+release=Create tag v0.0.1 and build and push enhancer-0.0.1.gem to Rubygems
+rerdoc=Force a rebuild of the RDOC files
+test=Run tests
