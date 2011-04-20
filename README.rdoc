@@ -1,3 +1,17 @@
-== Enhancer
+== Enhancer - Move your functionality to your data.
 
-Bring your functionality to your data.
+What where the geratest problems in your last project? I bet the answer will
+contain "ActiveRecord", "Datamapper", "Mongo*", "Hybernate" or
+any other data to object mapper technology. But why do we always have problems
+with our persistence layers?
+
+I this this is because of the tendency to hide the real persistency (whether
+it's relational or not) and to expose a pure object oriented API only. Basically
+this seems to be a good idea because of all kinds of logic we want to attach to
+our data. But why always bringing our data to the logic? Have you ever tryed it
+the other way around?
+
+Enhancer is a small proof of concept project, arose from many discussions about
+data mappers of all kind. It's basic idea is to keep the "low level" persistence
+APIs as they are and to provide mecanisms to "enhace" the data provided by those
+APIs with functionality.
