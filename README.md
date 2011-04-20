@@ -23,18 +23,22 @@ return an Array of Hashes. Enhancer is intended to be included into the top
 level object (the Array) and to enhance the underlaying objects recursively.
 
 Let us choose an example:
+
     @people = [
       {:first_name => 'David', :last_name => 'HH', :address => {:street => 'Sesame Street 1'}},
       {:first_name => 'Till', :last_name => 'SC'},
     ]
 
 We could have some functionality to work with this data. E.g.
+
     module Person
       def name
         "#{first_name} #{last_name}"
       end
     end
+
 and
+
     module People
       def names
         map do |person|
@@ -44,10 +48,13 @@ and
     end
 
 Enhancer allows us to include those modules into our Data object:
+
     @people.enhance!(People)
+
 `@people` now has the method `names`. But wait. How does enhancer know to include
 `Person`into the Hashes contained in `@people`? This is done by so called
 'matchers'. So our example above must be extended by the following code:
+
     module People
       extend Enhancer
       match "*", "Person" # The second parameter is the module name
@@ -63,7 +70,9 @@ _lib_ directory to see how to do it.
 There are two ways how to define a match: Inline and in the Mixins themselfes.
 
 The inline style is done by providing further parameters to the `enhance!` call:
+
     @people.enhance!("People", "*" => "Person")
+
 This would enhance the array with the module _People_ and the array elements
 with the _Person_ module.
 
