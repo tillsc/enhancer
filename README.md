@@ -1,7 +1,7 @@
 # Enhancer - Move your functionality to your data.
 
 What have been the greatest problems in your last project? I bet the answer will
-contain "ActiveRecord", "Datamapper", /Mongo.+/, "Hibernate" or any other
+contain "ActiveRecord", "Datamapper", /Mongo.*/, "Hibernate" or any other
 data to object mapper technology. But why do we always have problems
 with our persistence layers?
 
@@ -48,7 +48,7 @@ and
 
 Enhancer allows us to include those modules into our Data object:
 
-    @david.enhance!("Person")
+    @david.enhance!(Person)
 
 `@david` (and only `@david`) now has the method `name`. 
 
@@ -81,12 +81,12 @@ directly.
 
 The alternative inline style is done by providing further parameters to the `enhance!` call:
 
-    @david.enhance!("Person", :address => "Address")
+    @david.enhance!(Person, :address => Address)
 
 You can specify matchings of any depth by suppling nested Arrays and Hashes as seen
 in the following example:
 
-    @david.enhance!("Person", :address => ["Address", {:country => "Country"}])
+    @david.enhance!(Person, :address => [Address, {:country => Country}])
 
 This would enhance `@david[:address][:country]` by the Module `Country`.
 
@@ -106,16 +106,16 @@ Let's take a look how this could look like in praxis:
     @people = [@david, @till, @some_other_guy]
     
     # Enhance every entry:
-    @people.enhance!("*" => "Person")
+    @people.enhance!("*" => Person)
 
     # Enhance the second entry only:
-    @people.enhance!(1 => "Person")
+    @people.enhance!(1 => Person)
 
     # Enhance the last two elements:
-    @people.enhance!([-2, 2] => "Person")
+    @people.enhance!([-2, 2] => Person)
 
 Array and Hash matchers are combinable:
     
-    @people.enhance(0 => {:address => "Address"})
+    @people.enhance!(0 => {:address => Address})
 
 This would enhance `@people[0][:address]` by the module `Address`.
