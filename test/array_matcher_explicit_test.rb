@@ -12,9 +12,10 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
+$: << File.join(File.dirname(__FILE__), "..")
 require 'test/test_helper'
 
-class ArrayMatcherTest < Test::Unit::TestCase
+class ArrayMatcherExplicitTest < Test::Unit::TestCase
 
   module SomeGeneralEnhancement
     extend Enhancer
@@ -24,9 +25,18 @@ class ArrayMatcherTest < Test::Unit::TestCase
     end
   end
 
+  def setup
+    @old_strategy = Enhancer.array_matcher_strategy
+    Enhancer.array_matcher_strategy = :explicit
+  end
+
+  def teardown
+    Enhancer.array_matcher_strategy = @old_strategy
+  end
+
   def test_full_matcher
     people = ["Till", "Tim"]
-    people.enhance!("*" => "ArrayMatcherTest::SomeGeneralEnhancement")
+    people.enhance!("*" => "ArrayMatcherExplicitTest::SomeGeneralEnhancement")
     people.each do |person|
       assert_equal "Very intelligent stuff", person.do_something_else
     end
@@ -37,7 +47,7 @@ class ArrayMatcherTest < Test::Unit::TestCase
 
   def test_fixnum_matcher
     array = (0..9).to_a.map(&:to_s)
-    array.enhance!(2 => "ArrayMatcherTest::SomeGeneralEnhancement")
+    array.enhance!(2 => "ArrayMatcherExplicitTest::SomeGeneralEnhancement")
     assert_equal "Very intelligent stuff", array[2].do_something_else
     (array[0..1] +  array[3..9]).each do |element|
       assert_raise NoMethodError, "Element #{element} should not have the method 'do_something_else'." do
@@ -48,7 +58,7 @@ class ArrayMatcherTest < Test::Unit::TestCase
 
   def test_range_matcher
     array = (0..9).to_a.map(&:to_s)
-    array.enhance!(3..7 => "ArrayMatcherTest::SomeGeneralEnhancement")
+    array.enhance!(3..7 => "ArrayMatcherExplicitTest::SomeGeneralEnhancement")
     array[3..7].each do |element|
       assert_equal "Very intelligent stuff", element.do_something_else
     end
@@ -61,7 +71,7 @@ class ArrayMatcherTest < Test::Unit::TestCase
 
   def test_array_matcher
     array = (0..9).to_a.map(&:to_s)
-    array.enhance!([-3, 2] => "ArrayMatcherTest::SomeGeneralEnhancement")
+    array.enhance!([-3, 2] => "ArrayMatcherExplicitTest::SomeGeneralEnhancement")
     array[-3, 2].each do |element|
       assert_equal "Very intelligent stuff", element.do_something_else
     end

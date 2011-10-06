@@ -91,7 +91,25 @@ in the following example:
 This would enhance `@david[:address][:country]` by the Module `Country`.
 
 ### Array Matchers
-Enhacer also comes with the ability to enhance Arrays. There are some different ways to 
+Enhacer also comes with the ability to enhance Arrays. The default mode of Enhancer is the 
+_:implicit_ mode. This means calling `enhance!` on an array is equivalent to doing exactly
+the same `enhace!` call for every element of this array:
+
+    @people = [@david, @till, @some_other_guy]
+
+    @people.enhance!(Person, :address => [Address])
+    # is equal to:
+    @people.each{|person| person.enhance!(Person, :address => [Address])}
+
+If you want to enhance the Array itself or be a little more selective in enhancing elements, you can switch Enhancer's global array matcher mode:
+
+    Enhancer.array_matcher_mode = :explicit 
+
+Alternatively you can use the method `Array#enhance_explicit` or `Array#enhance_implicit`to switch to the alternative behavior in a certain context only. 
+
+#### Explicit Array Matchers
+
+There are some different ways to 
 specify which elements of the array should be enhanced:
 
 * `"*"` will Enhance every element of the array,

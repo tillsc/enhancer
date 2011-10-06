@@ -15,6 +15,21 @@
 class Array
 
   def enhance!(*args)
+    if Enhancer.array_matcher_strategy == :implicit
+      enhance_implicit(*args)
+    else
+      enhance_explicit(*args)
+    end
+  end
+
+  def enhance_implicit(*args)
+    self.each do |element|
+      element.enhance!(*args)
+    end
+    self
+  end
+
+  def enhance_explicit(*args)
     args.each do |matcher_or_module_klass|
       if matcher_or_module_klass.is_a?(Hash) # It's a matcher
         matcher_or_module_klass.each do |key, enhancements|
@@ -29,7 +44,7 @@ class Array
               element.enhance!(*enhancements)
             end
           elsif key.is_a?(Array) && key.length == 2
-            self[key.first, key.second].each do |element|
+            self[key[0], key[1]].each do |element|
               element.enhance!(*enhancements)
             end
           else

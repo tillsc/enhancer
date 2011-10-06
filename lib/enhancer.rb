@@ -12,13 +12,16 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
-require 'active_support/core_ext'
-
 require 'object'
 require 'hash'
 require 'array'
 
 module Enhancer
+
+  class << self
+    attr_accessor :array_matcher_strategy
+  end
+  self.array_matcher_strategy = :implicit
 
   class MatchContext
 
@@ -55,7 +58,11 @@ module Enhancer
     if module_or_name.is_a?(Module)
       return module_or_name
     elsif module_or_name.is_a?(String) || module_or_name.is_a?(Symbol)
-      return module_or_name.to_s.camelize.constantize
+      constant = Object
+      module_or_name.to_s.gsub(/\/(.?)/) { "::#{$1.upcase}" }.gsub(/(?:^|_)(.)/) { $1.upcase }.split("::").each do |name|
+        constant = constant.const_defined?(name) ? constant.const_get(name) : constant.const_missing(name)
+      end
+      constant
     else
       raise "Enhancer::modulize: module parameter (#{module_or_name.inspect}) must be a Module, String or Symbol"
     end
