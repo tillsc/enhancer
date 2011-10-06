@@ -12,6 +12,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
+$: << File.join(File.dirname(__FILE__), "..")
 require 'test/test_helper'
 
 class BasicsTest < Test::Unit::TestCase

@@ -16,3 +16,10 @@ source "http://rubygems.org"
 
 # Specify your gem's dependencies in blub.gemspec
 gemspec
+
+gem 'activesupport'
+
+group :development do
+  gem 'rake'
+  gem 'rdoc'
+end
