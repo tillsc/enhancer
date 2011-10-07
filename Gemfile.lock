@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    enhancer (0.0.1)
+    enhancer (0.0.2)
       builder
       bundler
 
